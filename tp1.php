@@ -6,15 +6,16 @@
     </head>
     <body>
         <script src="tp1.js"></script>
+        <script src="tp1-prelabo.js"></script>
         <h1>Codage et décodage binaire</h1>
         <h2>Pré-labo</h2>
         <form action="javascript:void(0)">
-            1er nombre: <input type="number" name="nbr1Decimal" value="0" id="nbr1Decimal" 
-                               onchange="DisplayNumberToBinary('nbr1Decimal', 'nbr1Binaire')"><br>            
+            1er nombre: <input type="number" name="nbr1Decimal" value="0" id="nbr1Decimal"
+                               onchange="DisplayNumberToBinary('nbr1Decimal', 'nbr1Binaire')"><br>
             <span id="negatifValue1">
                 négatif: <input type="checkbox" name="negatif" class="negatif" ><br>
             </span>
-            en binaire: 
+            en binaire:
             <span id="nbr1Binaire">
                 <input type="checkbox" name="bit0" class="bit0" value="bit0" onchange="updateNumberFromBinary('nbr1Binaire', 'nbr1Decimal')">
             </span><br>
@@ -22,14 +23,14 @@
 
             2ème nombre: <input type="number" name="nbr2Decimal" id="nbr2Decimal" value="0" onchange="DisplayNumberToBinary('nbr2Decimal', 'nbr2Binaire')"><br>
             en binaire: <span id="nbr2Binaire"><input type="checkbox" name="bit0" class="bit0" value="bit0" onchange="updateNumberFromBinary('nbr2Binaire', 'nbr2Decimal')"></span><br>
-            <button type="button" onclick="addByte('nbr2Binaire', 'nbr2Decimal')"> Ajouter un byte</button><br><br> 
+            <button type="button" onclick="addByte('nbr2Binaire', 'nbr2Decimal')"> Ajouter un byte</button><br><br>
 
             <input type="submit" name="add" value="Addition" onclick="addTwoBinaryNumber('nbr1Binaire', 'nbr2Binaire','reponseBinaire','reponse')">
             <input type="submit" name="add" value="Soustraction">
             <input type="submit" name="add" value="Multiplication">
             <br>
             Résultat:
-            <input type="number" name="reponse" id="reponse"><br>   
+            <input type="number" name="reponse" id="reponse"><br>
             <br>en binaire:
             <span id="reponseBinaire">
 
