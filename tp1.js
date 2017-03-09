@@ -59,6 +59,50 @@ function floatDecimalToBinaire()
 		document.getElementById("exposantBinaire").value=exposantBinaire;
 		document.getElementById("mantisseBinaire").value=mantisseBinaire;
 	}
+	
+}
+
+function floatBinaireToDecimal()
+{
+	var nBits=document.getElementById("nbBits").value;
+	var exposantTaille=0;
+	var bitTemp=nBits;
+
+	
+	while(bitTemp>=2)
+	{
+		bitTemp=bitTemp/2;
+		exposantTaille++;
+	}
+	exposantTaille=exposantTaille-3;
+	
+	var tailleExposant=exposantTaille*3+2;
+	var tailleMantisse=nBits-tailleExposant-1;
+	
+	var nombreDecimal;
+	var signeBinaire=document.getElementById("signeBinaire").value;
+	var exposantBinaire=document.getElementById("exposantBinaire").value;
+	var mantisseBinaire=document.getElementById("mantisseBinaire").value;
+	
+	var exposantDecimal=binaireToDecimal(exposantBinaire,tailleExposant);
+	var mantisseDecimal=binaireToDecimal(mantisseBinaire,tailleMantisse);
+	
+	mantisseDecimal=mantisseDecimal+Math.pow(2,tailleMantisse);
+	mantisseDecimal=mantisseDecimal/Math.pow(2,tailleMantisse);
+	
+	exposantDecimal=exposantDecimal-(Math.pow(2,tailleExposant-1)-1);
+	
+	nombreDecimal=Math.pow(2,exposantDecimal)*mantisseDecimal;
+	
+	if(signeBinaire=="1")
+	{
+		nombreDecimal=(-nombreDecimal);
+	}
+	
+	document.getElementById("chiffreDecimal").value=nombreDecimal;
+	
+	
+	
 }
 
 function decimalToBinaire(nombreDecimal, nbBit)
@@ -79,3 +123,18 @@ function decimalToBinaire(nombreDecimal, nbBit)
 	}
 	return nombreBinaire;
 }
+
+function binaireToDecimal(nombreBinaire, nbBit)
+{
+	var nombreDecimal=0;
+	for(var i=nbBit-1;i>=0;i=i-1)
+	{
+		if(nombreBinaire[nbBit-i-1]=="1")
+		{
+			nombreDecimal=nombreDecimal+Math.pow(2,i);
+		}
+	}
+	return nombreDecimal;
+	
+}
+

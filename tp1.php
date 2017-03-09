@@ -42,9 +42,9 @@
 		<br/>
         <input type="text" name="chiffreDecimal" class="chiffreDecimal" id="chiffreDecimal" onchange="floatDecimalToBinaire()"/>
 		<br/>
-		<input type="text" name="signeBinaire" class="signeBinaire"  id="signeBinaire" size="1" maxlength="1"/>
-		<input type="text" name="exposantBinaire" class="exposantBinaire"  id="exposantBinaire" size="8"/>
-		<input type="text" name="mantisseBinaire" class="mantisseBinaire"  id="mantisseBinaire" size="23"/>
+		<input type="text" name="signeBinaire" class="signeBinaire"  id="signeBinaire" onchange="floatBinaireToDecimal()"/>
+		<input type="text" name="exposantBinaire" class="exposantBinaire"  id="exposantBinaire" onchange="floatBinaireToDecimal()"/>
+		<input type="text" name="mantisseBinaire" class="mantisseBinaire"  id="mantisseBinaire" onchange="floatBinaireToDecimal()"/>
 
     </body>
 </html>
