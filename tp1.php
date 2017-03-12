@@ -44,7 +44,7 @@ Résultat:
   <br/>
   Chiffre à convertir: <input type="text" name="chiffreDecimal" class="chiffreDecimal" id="chiffreDecimal" onchange="floatDecimalToBinaire()"/>
   <br/>
-  <input type="text" name="signeBinaire" class="signeBinaire"  id="signeBinaire" onchange="floatBinaireToDecimal()"/>
+  <input type="text" maxlength="1" name="signeBinaire" class="signeBinaire"  id="signeBinaire" onchange="floatBinaireToDecimal()"/>
   <input type="text" name="exposantBinaire" class="exposantBinaire"  id="exposantBinaire" onchange="floatBinaireToDecimal()"/>
   <input type="text" name="mantisseBinaire" class="mantisseBinaire"  id="mantisseBinaire" onchange="floatBinaireToDecimal()"/>
 </form>
