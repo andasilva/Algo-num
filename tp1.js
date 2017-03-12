@@ -1,35 +1,23 @@
 
-//Fonction qui abrège document.getElementById
-function $(id) {
-    return document.getElementById(id);
-}
+/*************************/
+/* Fonctions principales */
+/*************************/
 
 function floatDecimalToBinaire()
 {
     var floatDecimal = $("chiffreDecimal").value;
-    var nBits = $("nbBits").value;
-    
+    var nBits = $("nbBits1").value;
+
     var signe = 0;
     var exposant = 0;
     var exposantBinaire;
     var mantisse;
     var mantisseBinaire;
 
-    if (floatDecimal && nBits)
+    if (floatDecimal && nBits && nBits>0)
     {
         //Calcul du nombre de bits de l'exposant et de la mantisse
-        var tailleExposant;
-        switch (nBits) {
-            case '16':
-                tailleExposant = 5;
-                break;
-            case '32':
-                tailleExposant = 8;
-                break;
-            default:
-                tailleExposant = Math.round(4 * Math.log2(nBits)) - 13;
-                break;
-        }
+        var tailleExposant = calculTailleExposant(nBits);
         var tailleMantisse = nBits - tailleExposant - 1;
 
         //Valeur du signe
@@ -55,72 +43,64 @@ function floatDecimalToBinaire()
         exposantBinaire = decimalToBinaire(exposant, tailleExposant);
 
         //Calcul de la mantisse
-        mantisse = (nombreDecimal - 1) * Math.pow(2, tailleMantisse);
+        mantisse = (floatDecimal - 1) * Math.pow(2, tailleMantisse);
 
         //Conversion de la mantisse en binaire
         mantisseBinaire = decimalToBinaire(mantisse, tailleMantisse);
 
         //Affichage des valeur
-        $("exposantBinaire").setAttribute('maxlength', tailleExposant);
-        $("mantisseBinaire").setAttribute('maxlength', tailleMantisse);
-
-        $("signeBinaire").value = signe;
-        $("exposantBinaire").value = exposantBinaire;
-        $("mantisseBinaire").value = mantisseBinaire;
+        $("resultatSigne").innerHTML = signe;
+        $("resultatExposant").innerHTML = exposantBinaire;
+        $("resultatMantisse").innerHTML = mantisseBinaire;
     }
-
 }
 
 
 function floatBinaireToDecimal()
 {
-    var nBits = $("nbBits").value;
-    var exposantTaille = 0;
-    var bitTemp = nBits;
-
-
-    while (bitTemp >= 2)
-    {
-        bitTemp = bitTemp / 2;
-        exposantTaille++;
-    }
-    exposantTaille = exposantTaille - 3;
-
-    var tailleExposant = exposantTaille * 3 + 2;
-    var tailleMantisse = nBits - tailleExposant - 1;
-
-    var nombreDecimal;
+    var nBits = $("nbBits2").value;
     var signeBinaire = $("signeBinaire").value;
     var exposantBinaire = $("exposantBinaire").value;
+    var exposantTaille = calculTailleExposant(nBits);
+    var exposantValeur;
     var mantisseBinaire = $("mantisseBinaire").value;
+    var mantisseTaille = nBits - exposantTaille -1;
+    var mantisseValeur;
+    
+    //calcul de la valeur de l'exposant et de la mantisse 
+    exposantValeur = binaireToDecimal(exposantBinaire, exposantTaille)-(Math.pow(2, exposantTaille-1) - 1);
+    mantisseValeur = binaireToDecimal(mantisseBinaire,mantisseTaille) / Math.pow(2,mantisseTaille)+1;
+    
+    //Calcul du résultat final
+    var resultat = (-2 * signeBinaire +1) * Math.pow(2, exposantValeur) * mantisseValeur; // signe * 2^exposant * mantisse
 
-    var exposantDecimal = binaireToDecimal(exposantBinaire, tailleExposant);
-    var mantisseDecimal = binaireToDecimal(mantisseBinaire, tailleMantisse);
-
-    mantisseDecimal = mantisseDecimal + Math.pow(2, tailleMantisse);
-    mantisseDecimal = mantisseDecimal / Math.pow(2, tailleMantisse);
-
-    exposantDecimal = exposantDecimal - (Math.pow(2, tailleExposant - 1) - 1);
-
-    nombreDecimal = Math.pow(2, exposantDecimal) * mantisseDecimal;
-
-    if (signeBinaire == "1")
-    {
-        nombreDecimal = (-nombreDecimal);
-    }
-
-    $("chiffreDecimal").value = nombreDecimal;
-
-
-
+    $("resultatFloat").innerHTML = resultat;
 }
 
-/**
- * Retourne un String contenant la valeur binaire d'un chiffre.
- * @param {int} nombreDecimal Le chiffre à convertir
- * @param {int} nbBit Le nombre de bits qui sera utilisé pour coder le chiffre
- * @returns {String} Le chiffre converti en decimal selon nbBit bits
- */
+/*************************/
+/* Fonctions secondaires */
+/*************************/
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+function calculTailleExposant(numberOfBits){
+    let tailleExposant;
+        switch (numberOfBits) {
+            case '16':
+                tailleExposant = 5;
+                break;
+            case '32':
+                tailleExposant = 8;
+                break;
+            default:
+                tailleExposant = Math.round(4 * Math.log2(nBits)) - 13;
+                break;
+        }
+    return tailleExposant;
+}
+
 function decimalToBinaire(nombreDecimal, nbBit)
 {
     var nombreBinaire = "";
@@ -138,8 +118,7 @@ function binaireToDecimal(nombreBinaire, nbBit)
 {
     var nombreDecimal = 0;
     for (let i = 0; i < nbBit; i++) {
-        nombreDecimal += nombreBinaire[i] * Math.pow(2, i);
+        nombreDecimal += nombreBinaire[nbBit-i-1] * Math.pow(2, i);
     }
     return nombreDecimal;
-
 }
