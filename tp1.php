@@ -92,32 +92,33 @@ Résultat:
     <tbody>
       <tr>
         <td>Signe</td>
-        <td><input type="text" maxlength="1" name="signeBinaire"   id="signeBinaire1" onchange=""/></td>
+        <td><input type="text" maxlength="1" name="signeBinaire1"   id="signeBinaire1" onchange="floatBinaireToDecimal('nbBits1','signeBinaire1','exposantBinaire1','mantisseBinaire1','chiffre1')"/></td>
         <td>Signe</td>
-        <td><input type="text" maxlength="1" name="signeBinaire"  id="signeBinaire2" onchange=""/></td>
+        <td><input type="text" maxlength="1" name="signeBinaire2"  id="signeBinaire2" onchange="floatBinaireToDecimal('nbBits2','signeBinaire2','exposantBinaire2','mantisseBinaire2','chiffre2')"/></td>
       </tr>
       <tr>
         <td>Exposant</td>
-        <td><input type="text" maxlength="8" name="exposantBinaire"   id="exposantBinaire1" onchange=""/></td>
+        <td><input type="text" maxlength="8" name="exposantBinaire1"   id="exposantBinaire1" onchange=""/></td>
         <td>Exposant</td>
-        <td><input type="text" maxlength="8" name="exposantBinaire"   id="exposantBinaire2" onchange=""/></td>
+        <td><input type="text" maxlength="8" name="exposantBinaire2"   id="exposantBinaire2" onchange=""/></td>
       </tr>
       <tr>
         <td>Mantisse</td>
-        <td><input width="100%"  type="text" maxlength="23" name="mantisseBinaire"   id="mantisseBinaire1" onchange=""/></td>
+        <td><input width="100%"  type="text" maxlength="23" name="mantisseBinaire1"   id="mantisseBinaire1" onchange=""/></td>
         <td>Mantisse</td>
-        <td><input width="100%"  type="text" maxlength="23" name="mantisseBinaire"   id="mantisseBinaire2" onchange=""/></td>
+        <td><input width="100%"  type="text" maxlength="23" name="mantisseBinaire2"   id="mantisseBinaire2" onchange=""/></td>
       </tr>
       <tr>
         <td>Chiffre:</td>
-        <td></td>
+        <td><span id="chiffre1"></span></td>
         <td>Chiffre:</td>
-        <td></td>
+        <td><span id="chiffre2"></span></td>
       </tr>
     </tbody>
   </table>
   <input type="button" name="additioner" id="additioner" value="Aditionner" onclick="add()">
 </form>
+Résultat: <span id="ResultatAddition"></span>
 
 
 <footer>
