@@ -66,11 +66,14 @@ function floatBinaireToDecimal()
     var mantisseBinaire = $("mantisseBinaire").value;
     var mantisseTaille = nBits - exposantTaille -1;
     var mantisseValeur;
-    
-    //calcul de la valeur de l'exposant et de la mantisse 
+
+    $("exposantBinaire").setAttribute("maxlength", exposantTaille);
+    $("mantisseBinaire").setAttribute("maxlength", mantisseTaille);
+
+    //calcul de la valeur de l'exposant et de la mantisse
     exposantValeur = binaireToDecimal(exposantBinaire, exposantTaille)-(Math.pow(2, exposantTaille-1) - 1);
-    mantisseValeur = binaireToDecimal(mantisseBinaire,mantisseTaille) / Math.pow(2,mantisseTaille)+1;
-    
+    mantisseValeur = binaireToDecimal(mantisseBinaire, mantisseTaille) / Math.pow(2,mantisseTaille)+1;
+
     //Calcul du résultat final
     var resultat = (-2 * signeBinaire +1) * Math.pow(2, exposantValeur) * mantisseValeur; // signe * 2^exposant * mantisse
 
@@ -95,7 +98,7 @@ function calculTailleExposant(numberOfBits){
                 tailleExposant = 8;
                 break;
             default:
-                tailleExposant = Math.round(4 * Math.log2(nBits)) - 13;
+                tailleExposant = Math.round(4 * Math.log2(numberOfBits)) - 13;
                 break;
         }
     return tailleExposant;
