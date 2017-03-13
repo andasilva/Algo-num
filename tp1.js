@@ -3,125 +3,224 @@
 /* Fonctions principales */
 /*************************/
 
-function floatDecimalToBinaire()
+function floatDecimalToBinaire(nbBitsID,chiffreID,resultatSigneID, resultatExposantID, resultatMantisseID)
 {
-    var floatDecimal = $("chiffreDecimal").value;
-    var nBits = $("nbBits1").value;
+  //chiffreDecimal, nbBits1, resultatSigne, resultatExposant, resultatMantisse
+  let floatDecimal = $(nbBitsID).value;
+  let nBits = $(chiffreID).value;
 
-    var signe = 0;
-    var exposant = 0;
-    var exposantBinaire;
-    var mantisse;
-    var mantisseBinaire;
+  let signe = 0;
+  let exposant = 0;
+  let exposantBinaire;
+  let mantisse;
+  let mantisseBinaire;
 
-    if (floatDecimal && nBits && nBits>0)
+  if (floatDecimal && nBits && nBits>0)
+  {
+    //Calcul du nombre de bits de l'exposant et de la mantisse
+    let tailleExposant = calculTailleExposant(nBits);
+    let tailleMantisse = nBits - tailleExposant - 1;
+
+    //Valeur du signe
+    if (floatDecimal < 0)
     {
-        //Calcul du nombre de bits de l'exposant et de la mantisse
-        var tailleExposant = calculTailleExposant(nBits);
-        var tailleMantisse = nBits - tailleExposant - 1;
-
-        //Valeur du signe
-        if (floatDecimal < 0)
-        {
-            signe = 1;
-            floatDecimal = (-floatDecimal);
-        }
-        //Calcul de la valeur de l'exposant
-        while (floatDecimal < 1)
-        {
-            floatDecimal = floatDecimal * 2;
-            exposant--;
-        }
-        while (floatDecimal >= 2)
-        {
-            floatDecimal = floatDecimal / 2;
-            exposant++;
-        }
-        exposant += Math.pow(2, tailleExposant - 1) - 1;
-
-        // convertion de l'exposant en binaire
-        exposantBinaire = decimalToBinaire(exposant, tailleExposant);
-
-        //Calcul de la mantisse
-        mantisse = (floatDecimal - 1) * Math.pow(2, tailleMantisse);
-
-        //Conversion de la mantisse en binaire
-        mantisseBinaire = decimalToBinaire(mantisse, tailleMantisse);
-
-        //Affichage des valeur
-        $("resultatSigne").innerHTML = signe;
-        $("resultatExposant").innerHTML = exposantBinaire;
-        $("resultatMantisse").innerHTML = mantisseBinaire;
+      signe = 1;
+      floatDecimal = (-floatDecimal);
     }
+    //Calcul de la valeur de l'exposant
+    while (floatDecimal < 1)
+    {
+      floatDecimal = floatDecimal * 2;
+      exposant--;
+    }
+    while (floatDecimal >= 2)
+    {
+      floatDecimal = floatDecimal / 2;
+      exposant++;
+    }
+
+    exposant += Math.pow(2, tailleExposant - 1) - 1;
+
+    // convertion de l'exposant en binaire
+    exposantBinaire = decimalToBinaire(exposant, tailleExposant);
+
+    //Calcul de la mantisse
+    mantisse = (floatDecimal - 1) * Math.pow(2, tailleMantisse);
+
+    //Conversion de la mantisse en binaire
+    mantisseBinaire = decimalToBinaire(mantisse, tailleMantisse);
+
+    //Affichage des valeur
+    $(resultatSigneID).innerHTML = signe;
+    $(resultatExposantID).innerHTML = exposantBinaire;
+    $(resultatMantisseID).innerHTML = mantisseBinaire;
+  }
 }
 
 
-function floatBinaireToDecimal()
+function floatBinaireToDecimal(nbBitsID,signeID,exposantID,mantisseID,resultatID)
 {
-    var nBits = $("nbBits2").value;
-    var signeBinaire = $("signeBinaire").value;
-    var exposantBinaire = $("exposantBinaire").value;
-    var exposantTaille = calculTailleExposant(nBits);
-    var exposantValeur;
-    var mantisseBinaire = $("mantisseBinaire").value;
-    var mantisseTaille = nBits - exposantTaille -1;
-    var mantisseValeur;
+  //nbBits2, signeBinaire, exposantBinaire, mantisseBinaire, resultatFloat
+  let nbBits = $(nbBitsID).value;
+  let signeBinaire = $(signeID).value;
+  let exposantBinaire = $(exposantID).value;
+  let mantisseBinaire = $(mantisseID).value;
 
-    $("exposantBinaire").setAttribute("maxlength", exposantTaille);
-    $("mantisseBinaire").setAttribute("maxlength", mantisseTaille);
+  let exposantTaille = calculTailleExposant(nbBits);
+  let mantisseTaille = nbBits - exposantTaille -1;
 
+  //On met à jours les champs
+  $(exposantID).value = $(exposantID).value.slice(0,exposantTaille-$(exposantID.length));
+  $(mantisseID).value = $(mantisseID).value.slice(0,mantisseTaille-$(mantisseID.length));
+  $(exposantID).setAttribute("maxlength", exposantTaille);
+  $(mantisseID).setAttribute("maxlength", mantisseTaille);
+
+  if(nbBits && nbBits>0 && signeBinaire && exposantBinaire && mantisseBinaire){
     //calcul de la valeur de l'exposant et de la mantisse
-    exposantValeur = binaireToDecimal(exposantBinaire, exposantTaille)-(Math.pow(2, exposantTaille-1) - 1);
-    mantisseValeur = binaireToDecimal(mantisseBinaire, mantisseTaille) / Math.pow(2,mantisseTaille)+1;
+    let exposantValeur = binaireToDecimal(exposantBinaire, exposantTaille)-(Math.pow(2, exposantTaille-1) - 1);
+    let mantisseValeur = (binaireToDecimal(mantisseBinaire, mantisseTaille)+Math.pow(2,mantisseTaille)) / Math.pow(2,mantisseTaille);// (valeur de la mantisse + valeur du bit caché / 2^taille de la mantisse)
 
     //Calcul du résultat final
-    var resultat = (-2 * signeBinaire +1) * Math.pow(2, exposantValeur) * mantisseValeur; // signe * 2^exposant * mantisse
+    let resultat = (-2 * signeBinaire +1) * Math.pow(2, exposantValeur) * mantisseValeur; // signe * 2^exposant * mantisse
 
-    $("resultatFloat").innerHTML = resultat;
+    $(resultatID).innerHTML = resultat;
+  }
 }
+
+function add() {
+  var binaireExposant1 = $("exposantBinaire1").value;
+  var tailleExposant1 = calculTailleExposant(32);
+  var binaireExposant2 = $("exposantBinaire2").value;
+  var tailleExposant2 = calculTailleExposant(32);
+
+  var binaireMantisse1 = "1"+$("mantisseBinaire1").value;
+  var binaireMantisse2 = "1"+$("mantisseBinaire2").value;
+  var tailleMantisse1 = 32 - tailleExposant1 - 1;
+
+  //Calcul de la valeur des deux exposant
+  var valeurExposant1 = binaireToDecimal(binaireExposant1, tailleExposant1) - (Math.pow(2, tailleExposant1 - 1) - 1);
+  var valeurExposant2 = binaireToDecimal(binaireExposant2, tailleExposant2) - (Math.pow(2, tailleExposant2 - 1) - 1);
+
+  //On prend l'exposant le plus petit et on la ramnène a la même taille que l'autre
+  if (valeurExposant1 < valeurExposant2){
+    //On shiffte la mantisse du chiffre1
+    for (let i = 0; i < Math.abs(valeurExposant1 - valeurExposant2); i++) {
+      //On supprime le dernier bit
+      binaireMantisse1 = binaireMantisse1.slice(0, -1);
+      binaireMantisse1 = "0" + binaireMantisse1;
+    }
+  } else if (valeurExposant2 < valeurExposant1) {
+    //On shiffte la mantisse du chiffre2
+    for (let i = 0; i < Math.abs(valeurExposant1 - valeurExposant2); i++) {
+      //On supprime le dernier bit
+      binaireMantisse2 = binaireMantisse2.slice(0, -1);
+      binaireMantisse2 = "0" + binaireMantisse2;
+    }
+  }
+
+
+
+  //On aditionne les mantisses
+  var retenu = 0;
+  var mantisseResultat = "";
+  let addition;
+
+  for (let i = binaireMantisse1.length-1; i >= 0; i--) {
+
+    addition = retenu + parseInt(binaireMantisse1[i]) + parseInt(binaireMantisse2[i]);
+
+    //alert(addition);
+    switch (addition) {
+      case 0:
+      mantisseResultat = "0" + mantisseResultat;
+      retenu = 0;
+      break;
+      case 1:
+      mantisseResultat = "1" + mantisseResultat;
+      retenu = 0;
+      break;
+      case 2:
+      mantisseResultat = "0" + mantisseResultat;
+      retenu = 1;
+      break;
+      case 3:
+      mantisseResultat = "1" + mantisseResultat;
+      retenu = 1;
+      break;
+      default:
+
+    }
+
+  }
+
+//Choisir l'exposant le plus grand
+  var exposantPlusGrand = valeurExposant1 > valeurExposant2 ? valeurExposant1 : valeurExposant2;
+
+  if(retenu ===1){
+    mantisseResultat = "1" + mantisseResultat;
+    mantisseResultat = mantisseResultat.slice(0, -1);
+    //A améliorer
+    exposantPlusGrand++;
+  }
+
+  //Calcul de la mantisse
+  mantisseResultat.slice(1);
+  var valeurMantisseResultat = binaireToDecimal(mantisseResultat, tailleMantisse1) / Math.pow(2, tailleMantisse1);
+
+  //On affiche le resultat
+  var resultat = Math.pow(2, exposantPlusGrand) * valeurMantisseResultat; // signe * 2^exposant * mantisse
+
+  alert(resultat);
+
+}
+
+
+
+
 
 /*************************/
 /* Fonctions secondaires */
 /*************************/
 
+
 function $(id) {
-    return document.getElementById(id);
+  return document.getElementById(id);
 }
 
 function calculTailleExposant(numberOfBits){
-    let tailleExposant;
-        switch (numberOfBits) {
-            case '16':
-                tailleExposant = 5;
-                break;
-            case '32':
-                tailleExposant = 8;
-                break;
-            default:
-                tailleExposant = Math.round(4 * Math.log2(numberOfBits)) - 13;
-                break;
-        }
-    return tailleExposant;
+  let tailleExposant;
+  switch (numberOfBits) {
+    case '16':
+    tailleExposant = 5;
+    break;
+    case '32':
+    tailleExposant = 8;
+    break;
+    default:
+    tailleExposant = Math.round(4 * Math.log2(numberOfBits)) - 13;
+    break;
+  }
+  return tailleExposant;
 }
 
 function decimalToBinaire(nombreDecimal, nbBit)
 {
-    var nombreBinaire = "";
-    for (let i = 0; i < nbBit; i++) {
-        if (nombreDecimal & Math.pow(2, i)) {
-            nombreBinaire = "1" + nombreBinaire;
-        } else {
-            nombreBinaire = "0" + nombreBinaire;
-        }
+  let nombreBinaire = "";
+  for (let i = 0; i < nbBit; i++) {
+    if (nombreDecimal & Math.pow(2, i)) {
+      nombreBinaire = "1" + nombreBinaire;
+    } else {
+      nombreBinaire = "0" + nombreBinaire;
     }
-    return nombreBinaire;
+  }
+  return nombreBinaire;
 }
 
 function binaireToDecimal(nombreBinaire, nbBit)
 {
-    var nombreDecimal = 0;
-    for (let i = 0; i < nbBit; i++) {
-        nombreDecimal += nombreBinaire[nbBit-i-1] * Math.pow(2, i);
-    }
-    return nombreDecimal;
+  let nombreDecimal = 0;
+  for (let i = 0; i < nbBit; i++) {
+    nombreDecimal += nombreBinaire[nbBit-i-1] * Math.pow(2, i);
+  }
+  return nombreDecimal;
 }
