@@ -14,7 +14,7 @@ function floatDecimalToBinaire(nbBitsID, chiffreID, resultatSigneID, resultatExp
     let mantisse;
     let mantisseBinaire;
 
-    if (floatDecimal && nBits && nBits > 0)
+    if (floatDecimal && floatDecimal !== "0" && nBits && nBits > 0) // Nombre dénormalisé pas traité...
     {
         //Calcul du nombre de bits de l'exposant et de la mantisse
         let tailleExposant = calculTailleExposant(nBits);
@@ -116,14 +116,15 @@ function add() {
 
     //On aditionne les mantisses
     let mantisseResultat = addTwoBinaryNumber(binaireMantisse1, binaireMantisse2);
-    
-    //On test si la mantisse à toujours la même taille que départ... sinon c'est qu'il y a un bit excédentaire apparu lors de l'adition
-    while(mantisseResultat.length !== binaireMantisse1.length){
-        deleteExcedant(mantisseResultat);
-    }
 
     //Choisir l'exposant le plus grand
     let exposantPlusGrand = valeurExposant1 > valeurExposant2 ? binaireExposant1 : binaireExposant2;
+
+    //On test si la mantisse à toujours la même taille que départ... sinon c'est qu'il y a un bit excédentaire apparu lors de l'adition
+    while(mantisseResultat.length > binaireMantisse1.length){
+        mantisseResultat = deleteExcedant(mantisseResultat);
+        exposantPlusGrand = addTwoBinaryNumber(exposantPlusGrand,"1");
+    }
 
     //Calcul de la mantisse
     mantisseResultat = mantisseResultat.slice(1);
@@ -140,9 +141,9 @@ function add() {
 function deleteExcedant(binaryNumber){
     //Si le dernier bit est à 0. alors on le supprime. De même si dernier vaut 1 et l'avant dernier 0
     if(binaryNumber[binaryNumber.length-1] === '0' || ((binaryNumber[binaryNumber.length-1] ==='1') &&  binaryNumber[binaryNumber.length-2] ==='0')){
-       binaryNumber = binaryNumber.slice(0,-1); 
+       return binaryNumber.slice(0,-1);
     }else{ //Si le dernier bit est à 1 et que ceux d'avant aussi alors on arrondie vers le haut
-        binaryNumber = addTwoBinaryNumber(binaryNumber,+"1");
+        binaryNumber = addTwoBinaryNumber(binaryNumber,"1");
     }
 }
 
@@ -170,8 +171,6 @@ function addTwoBinaryNumber(binaryNumber1, binaryNumber2) {
             addition = retenu + parseInt(plusGrandNombreBinaire[plusGrandNombreBinaire.length - i - 1 ]);
         }
 
-
-        //alert(addition);
         switch (addition) {
             case 0:
                 resultat = "0" + resultat;
@@ -196,7 +195,7 @@ function addTwoBinaryNumber(binaryNumber1, binaryNumber2) {
         resultat = "1" + resultat;
         console.log("Reste retenu");
     }
-    
+
     return resultat;
 }
 
