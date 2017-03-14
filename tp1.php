@@ -61,9 +61,9 @@
                 <tbody>
                     <tr>
                         <td>Signe</td>
-                        <td width="50%"><input width="100" type="text" maxlength="1" name="signeBinaire1"   id="signeBinaire1" onchange="floatBinaireToDecimal('nbBitsAddition', 'signeBinaire1', 'exposantBinaire1', 'mantisseBinaire1', 'chiffre1')"/></td>
+                        <td width="50%"><input disabled value="0" type="text" maxlength="1" name="signeBinaire1"   id="signeBinaire1" onchange="floatBinaireToDecimal('nbBitsAddition', 'signeBinaire1', 'exposantBinaire1', 'mantisseBinaire1', 'chiffre1')"/></td>
                         <td>Signe</td>
-                        <td width="50%"><input type="text" maxlength="1" name="signeBinaire2"  id="signeBinaire2" onchange="floatBinaireToDecimal('nbBitsAddition', 'signeBinaire2', 'exposantBinaire2', 'mantisseBinaire2', 'chiffre2')"/></td>
+                        <td width="50%"><input disabled type="text" value="0" maxlength="1" name="signeBinaire2"  id="signeBinaire2" onchange="floatBinaireToDecimal('nbBitsAddition', 'signeBinaire2', 'exposantBinaire2', 'mantisseBinaire2', 'chiffre2')"/></td>
                     </tr>
                     <tr>
                         <td>Exposant</td>
@@ -89,7 +89,7 @@
         </form>
         <footer style="margin-top:100px; border-top:2px solid black; ">
             Informations:<br>
-            Ce labo a été réalisé par Jmaa Mohamed, Castella Killian, Neto da Silva André & Piquerez Thibaut dans le cadre du cour "Algorithmes numériques".
+            Ce labo a été réalisé par Jmaa Mohamed, Castella Killian, Neto da Silva André & Piquerez Thibaut dans le cadre du cours "Algorithmes numériques".
         </footer>
     </body>
 </html>
