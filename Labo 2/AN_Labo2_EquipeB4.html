@@ -1,0 +1,64 @@
+﻿<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Labo 2 Equipe 4</title>
+        <meta charset="UTF-8">
+
+    </head>
+    <body onload="dessin()">
+        <div id="head" style="text-align:center; border-bottom: solid 2px black;">
+            <h1> Algorithmes Numériques</h1>
+            <h2>Résolution d’équation par la méthode de la "tangente"</h2>
+        </div>
+        <div id="dessin" style="margin:auto; min-height:400px; padding-top: 20px;">
+            <!-- Canvas pour la fonction -->
+            <canvas id="myCanvas" style="z-index: 1; position: absolute;left:24%"  width= "1000" height="400" ></canvas>
+            <!-- Canvas pour les axes -->
+            <canvas id="myCanvasA" style="z-index: 2;position: absolute; left:24%;"  width='1000' height="400"></canvas>
+        </div>
+        <div id="saisie" style="margin:auto; text-align:center">
+            <form>
+                <fieldset>
+                    <legend align="center"><h3>Paramètres du graphique</h3></legend>
+                    <table style="margin: 0 auto; text-align:left;">
+                        <tr>
+                            <td rowspan="2" valign="top"  style="text-align:right">Choix de l'équation :</td>
+                            <td><input type= "radio" name="func" id="sin" checked onclick="dessin()"> sin(x) - (x/13)</td>
+                        </tr>
+                        <tr>
+                            <td><input type= "radio" name="func" id="x" onclick="dessin()">x / (1 - x<sup>2</sup>)</td>
+                        </tr>
+                        <tr>
+                            <td  style="text-align:right">Départ :</td>
+                            <td><input type="text" name="val" id="val" value="4"></td>
+                        </tr>
+                        <tr>
+                            <td  style="text-align:right">Nombre d'itération :</td>
+                            <td><input type="text" name="iteration" id="iteration" value="10" ></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">Seuil de précision:</td>
+                            <td><input type="text" name="epsilon" id="epsilon" value="0.00001"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right; padding-top:20px;"><input type="button" name="calcul" id="calcul" value="Calcul" onClick="valid()" align="rigth"></td>
+                            <td style="padding-top:20px; "><input type="button" name="cancel" id="cancel" value="Annuler" onClick="cancelDraw()" align="rigth"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">Resultat: </td>
+                            <td><label id = "resultat"> - </label></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+        <script src="graph.js"></script>
+        <script src="tp2.js"></script>
+        <footer style="margin-top:100px; border-top:2px solid black; ">
+            <h3>Informations:</h3>
+            La réalisation du graphique est généré par le script graph.js. Ce script est mis à disposition sur github via ce lien: https://gist.github.com/milichev/9488171 
+            <h4>Contextualisation</h4>
+            Ce labo a été réalisé par Jmaa Mohamed, Castella Killian, Neto da Silva André & Piquerez Thibaut dans le cadre du cours "Algorithmes numériques".
+        </footer>
+    </body>
+</html>
