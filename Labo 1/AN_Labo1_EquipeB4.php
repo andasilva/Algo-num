@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>TP 1 Algo</title>
+  <title>AN_Labo1_EquipeB4</title>
 </head>
 <body>
   <script src="tp1.js"></script>
