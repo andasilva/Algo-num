@@ -54,7 +54,7 @@ function valid()
     var epsilon = document.getElementById("epsilon").value;
     if (startX && startX < 100 && startX > -100)
     {
-        if (iteration > 0) {
+        if (iteration > 0 && Math.floor(iteration) == iteration) {
             if (epsilon > 0) {
                 tangentMethod(startX, 0, iteration, epsilon);
             } else {
