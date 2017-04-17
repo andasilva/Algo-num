@@ -2,9 +2,9 @@
 var n;
 
 function gauss(n,A,B){
-	alert(n);
-	alert(A);
-	alert(B);
+	for(i=1;i<n;i++){
+		
+	}
 }
 function getFileContent(){
 	var reader = new FileReader();
@@ -14,5 +14,5 @@ function getFileContent(){
 function onReaderLoad(event){
     console.log(event.target.result);
     var obj = JSON.parse(event.target.result);
-	gauss(obj.n, obj.A, obj.B);
+	gauss(obj.n, eval(obj.A), eval(obj.B));
 }
