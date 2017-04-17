@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+
+<script src="ch3_eg_matrix.json" type="text/javascript"></script>
+<script>
+var file;
+function showFileName() {
+   file = document.getElementById("myFile");
+
+}
+// code pour rendre la matrice triangulaire
+function triang(){
+	//Création de différents tableaux pour le stockage des données
+	var A=new Array();
+	var An=new Array();
+	var B=new Array();
+	var Bn=new Array();
+	var x= new Array();
+	var n;
+	//var req = null;
+	var storage=document.getElementById("storage");
+	var k = 0;//compteur pour les zero
+	
+	var req = new XMLHttpRequest();
+	//var req = createXHR();
+	//Recupération du fichier .json
+	req.open("GET", file.value, true);
+	req.onreadystatechange = calcul;   // la fonction de prise en charge
+	req.send(null);	 
+
+	function calcul()
+	{
+	var d1 = new Date();
+	var n1 = d1.getTime();
+	if (req.readyState == 4 && req.status == 200) { 
+			//lecture de fichier JSON
+			var doc =  req.responseText ;
+			//recuperation element par element
+			obj= JSON.parse(doc);
+			//taille de la matrice
+			n = obj.n[0];
+			//storage.innerHTML = "On a une matrice de "+ n +" dimension.";			
+			//Création d'un tableau 2 dimensions
+			for(var i=0; i<n; i++)
+				A[i] = new Array();
+			//Création d'un tableau 2 dimensions
+			for( i=0; i<n; i++)
+				An[i] = new Array();
+			//Remplissage d'un tableau 2 dimensions
+			var index=0;
+			for (i = 0; i < n; i++) { 
+				for (j = 0; j < n; j++) { 
+				A[i][j] = obj.A[index];
+				index++;
+				}
+			}
+			//An=A.slice(0);
+			//Initialisation du vecteur X
+			for( i=0; i<n; i++)
+			{
+				x[i] = new Array();
+				x[i]=0;
+			}
+			//remplir la new matrice 
+			for( i=0; i<n; i++){
+				for(var j=0; j<n;j++){
+					An[i][j]=A[i][j];
+				}
+			}
+
+			//les B
+			for (i = 0; i < n; i++) { 
+				B[i] = obj.B[i];
+				Bn[i]=B[i];
+			}
+			//Bn= B.slice(0);
+			//calcule Aij
+			for(var i=1; i<n; i++){	
+			
+				//calcule Bi
+				//Bn[i]=B[i]-(A[i][0]/A[i-1][i-1])*B[i-1];
+				for(var f=i;f<n;f++)
+				{
+					//Bn[i]=B[i]-(A[i][0]/A[0][0])*B[0];
+					Bn[f]=Bn[f]-(A[f][i-1]/A[i-1][i-1])*Bn[i-1];
+				}
+				// on met des 0 dans un colonne
+				for(var v=i; v<n; v++){
+					An[v][k]=0;
+				}
+
+				//Calcul de la nouvelle valeur
+				for( j=i; j<n; j++){
+					for(var l=i; l<n; l++){
+						An[j][l]=A[j][l]-(A[j][i-1]/A[i-1][i-1])*A[i-1][l];
+					}
+				}
+				k++;
+				for(var m=0; m<n; m++){
+					for(var r=0; r<n; r++){
+						A[m][r]=An[m][r];
+					}
+				}
+			}
+			//affichage de la matrice
+			/*var textA="";
+			for (i = 0; i < n; i++) 
+			{ 
+				for (j = 0; j < n; j++)
+				{
+					textA += An[i][j].toFixed(2).toString() + " ";						
+				}
+				textA += "\r\n";
+			}
+			storage1.innerHTML = textA;
+			
+			//affichage du vecteur B
+			var textB="B = ";
+			for (i = 0; i < n; i++) { 
+				textB += Bn[i].toFixed(2).toString() + " ";
+			}
+			storage2.innerHTML = textB;*/
+
+			//Calcul du determinant
+			var det=1;
+			for( i=0; i<n; i++){
+				
+				det*=An[i][i];
+				
+			}
+			storage1.innerHTML ="Det = "+ det.toFixed(2);
+			
+			//Calcul du vecteur X
+			var s;
+			for (i=n-1; i>=0;i--)
+			{
+				//s contient la somme des valeurs que l'on peut calculer
+				s=0;
+				for (j=0; j<n;j++)
+				{
+					s+=x[j]*An[i][j]
+				}
+				//au soustrait s au B et on calcule le coefficient Xi
+				x[i]=(Bn[i]-s)/An[i][i];
+			}
+			//Affichage du vecteur X
+			var textX="";
+			for (i=0;i<n;i++)
+			{
+				textX+="x"+i +" : " +x[i].toFixed(2) + "  ";
+			}			
+			storage2.innerHTML = textX;
+	}
+	
+	var d2 = new Date();
+var n2 = d2.getTime();
+var res = n2-n1;
+alert("temps = "+res+" ms");
+
+	}
+	
+	
+}
+
+</script>
+<title>Equipe 5 Labo 3</title>
+</head>
+ 
+<body  >
+
+<h2>Resolution de système linéaire</h2>
+
+<FORM >
+<p><input class="button" type="file" id="myFile" name="myFile" onclick="showFileName()"/></p>
+<!--<p><INPUT type="BUTTON" value=" Submit"  ONCLICK="submitForm()"></p>-->
+<p><INPUT class="button" type="BUTTON" value=" Calculer"  ONCLICK="triang()"></p>
+
+<div id="storage"></div>
+<div id="storage1"></div>
+<div id="storage2"></div>
+<div id="storage3"></div>
+</FORM>		
+</body>
+<br/><br/>
+<h3>Contexte :</h3>
+	<p>
+	Le but du laboratoire de trouver la solution d'un système linéaire. Pour cela on écrit l'équation sous forme matricielle et on recherche le vecteur X. Les matrices sont de taille n. L'équation à résoudre est du type A.X=B ou A est la matrice, x le vecteur inconnu et B étant le résultat de la multiplication matricielle. Toutes ses informations doivent être lues depuis un fichier json. Le problème doit également être résolu à l'aide de la méthode de Gauss
+	</p>
+<h3>Méthodologie de développement :</h3>
+	<p>
+	Pour le stockage de la matrice on a décidé d'utilisé un tableau 2 dimensions et les autres vecteurs sont des tableaux à une seule dimension. Les tableaux sont de taille n, valeur récupérer depuis le fichier json. Une fois les valeurs stockées dans les tableaux, on met en place l'élimination de Gauss (comme décrite dans le cours). Une fois la matrice rendu triangulaire, on peut trouver le vecteur X en utilisant la substitution. Pour l'algorithme, on a d'abord établi sur papier avec un exemple l'algorithme général puis on l'a implémenté.
+	</p>
+
+<h3>Conclusion et perspective :</h3>
+	<p>
+	On a rencontré un problème au niveau du calcul de B dû a une erreur dans le code que l'on a réussi a corrigé, par contre les tests n'on été effectué seulement avec la matrice de test et une matrice un peu plus grande. Donc le résultat avec la matrice "tricky" et très grande peuvent ne pas être correcte. Les matrices testés ont été vérifié et son cohérente avec le résultat trouvé sur Mathematica.
+	On aurai également pu afficher les matrices qui ont une taille correcte (inférieur à un certain n).
+	</p>
+
+<h3>Utilisation :</h3>
+	<p>
+	Pour utiliser le programme on commence par sélectionner le fichier json et on appuie sur le bouton calcul. Les différents calculs sont effectués et on affiche le déterminant de la matrice et le vecteur X que lôn a calculé. Pour que cela fonctionne, il faut que le fichier json que l'on ouvre soit dans le même répertoire que .html. En plus du programme on a joint la matrice que l'on a utilisé (celle fournie).
+	</p>
+</html>
+
