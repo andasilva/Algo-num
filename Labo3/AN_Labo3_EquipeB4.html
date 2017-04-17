@@ -1,0 +1,32 @@
+﻿<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Labo 2 Equipe 4</title>
+        <meta charset="UTF-8">
+
+    </head>
+    <body>
+        <div id="head" style="text-align:center; border-bottom: solid 2px black;">
+            <h1> Algorithmes Numériques</h1>
+            <h2>Résolution d'un système linéaire avec la méthode de Gauss</h2>
+        </div>
+        <div id="saisie">
+			<input type="file" name="fileToUpload" id="fileToUpload" accept=".json">
+			</br>
+			<input type="submit" value="Go" name="submit" onclick="getFileContent()">
+			<p>Choisissez un fichier correspondant au format suivant :.</p>
+			<pre>
+				{
+					"n": [3],
+					"A": [3.0,4.0,-1.0,1.0,-1.0,2.0,2.0,3.0,4.0],
+					"B": [23.0,3.0,7.0]
+				}    
+			</pre>
+        </div>
+        <script src="tp3.js"></script>
+        <footer style="margin-top:100px; border-top:2px solid black; ">
+            <h4>Contextualisation</h4>
+            Ce labo a été réalisé par l'équipe 4b composée de Jmaa Mohamed, Castella Killian, Neto da Silva André & Piquerez Thibaut dans le cadre du cours "Algorithmes numériques".
+        </footer>
+    </body>
+</html>
