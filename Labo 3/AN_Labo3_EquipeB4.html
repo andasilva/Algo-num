@@ -1,0 +1,38 @@
+﻿<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Labo 3 Equipe B4</title>
+        <meta charset="UTF-8">
+
+    </head>
+    <body>
+        <div id="head" style="text-align:center; border-bottom: solid 2px black;">
+            <h1> Algorithmes Numériques</h1>
+            <h2>Résolution d'un système linéaire avec la méthode de Gauss</h2>
+        </div>
+        <div id="saisie">
+            <h2>Mode d'emploi</h2>
+            <p>Afin de pouvoir utiliser cet outil, il est indispensable de déposer le fichier de matrice dans le dossier "json" situé dans le même répertoire que cette page.</p>
+            <p>De plus, le fichier de matrice doit être au format 'json' et organisé de la manière suivante :</p>
+            <pre>
+				{
+					"n": [3],
+					"A": [3.0,4.0,-1.0,1.0,-1.0,2.0,2.0,3.0,4.0],
+					"B": [23.0,3.0,7.0]
+				}    
+            </pre>
+            <h2>Résolveur</h2>
+            Veuillez sélectionner le fichier de matrice: <input type="file" name="jsonFile" id="jsonFile">
+            <br><br>Appuyez sur le bouton pour résoudre la matrice: <button onclick="calculate()">Résoudre matrice</button>
+        </div>
+
+        <h2>Résultats</h2>
+        <div id="output">
+        </div>
+        <script src="tp3.js"></script>
+        <footer style="margin-top:100px; border-top:2px solid black; ">
+            <h4>Contextualisation</h4>
+            Ce labo a été réalisé par l'équipe 4b composée de Jmaa Mohamed, Castella Killian, Neto da Silva André & Piquerez Thibaut dans le cadre du cours "Algorithmes numériques".
+        </footer>
+    </body>
+</html>
