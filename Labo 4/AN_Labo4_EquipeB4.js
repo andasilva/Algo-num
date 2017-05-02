@@ -11,8 +11,8 @@ function cosTaylor(x)
     if (n < 0) {
         alert("n doit être un nombre supérieur à 0");
         throw new Error("n invalidate!");
-    } else if (n > 150) {
-        alert("n doit être inférieure à 150");
+    } else if (n > 50) {
+        alert("n doit être inférieure à 50");
         throw new Error("n invalidate!");
     }
 
