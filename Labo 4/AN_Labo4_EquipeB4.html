@@ -13,13 +13,13 @@
 
         <div>
             <label for="h">h (pour dérivé)</label>
-            <input type="number" id="h" name="h" step="any" value="0.01"/>
+            <input type="number" id="h" name="h" step="0.1" value="0.01"/>
             <label for="nTaylor">n (pour Taylor)</label>
-            <input type="number" id="nTaylor" name="nTaylor" step="any" value="30" max="150"/>
+            <input type="number" id="nTaylor" name="nTaylor" step="1" value="30" max="50"/>
             <label for="minRange">Borne inférieure</label>
             <input type="number" id="minRange" name="minRange" step="any" value="-30"/>
             <label for="maxRange">Borne supérieure</label>
-            <input type="number" id="maxRange" name="maxRange" step="1" value="30"/>
+            <input type="number" id="maxRange" name="maxRange" step="any" value="30"/>
             <div id="plotFunction"></div>
             <button onclick="main();">Dessiner</button>
         </div>

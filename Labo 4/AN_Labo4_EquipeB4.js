@@ -12,7 +12,7 @@ function cosTaylor(x)
         alert("n doit être un nombre supérieur à 0");
         throw new Error("n invalidate!");
     } else if (n > 50) {
-        alert("n doit être inférieure à 50");
+        alert("n doit être inférieure ou égal à 50");
         throw new Error("n invalidate!");
     }
 
@@ -52,6 +52,11 @@ function main()
 {
     var h = document.getElementById("h").value;
     h = parseFloat(h);
+	
+	if (h < 0.001) {
+        alert("h doit être un nombre supérieur ou égal à 0.001");
+        throw new Error("h invalidate!");
+    }
 
     var min = document.getElementById("minRange").value;
     min = parseFloat(min);
