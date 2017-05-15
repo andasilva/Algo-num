@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Labo 5 Equipe B4</title>
+        <meta charset="UTF-8">
+        <script type="text/javascript">
+            function simpson()
+            {
+                var t0 = performance.now();
+                var a = 0;//Borne inférieur
+                var b = 1;//Borne supérieur
+                var n = 500; //Nombre d'itération
+                var sommePaire = 0;
+                var sommeImpaire = 0;
+                var h = (b - a) / n; // calcul du pas
+                for (i = 1; i < n; i++) // Somme allant de 1 jusqu'à n
+                {
+                    var x = a + i * h; // valeur du x à calculer
+
+                    if ((i % 2) == 0) { //Modulo 2 donne si pair ou impair 
+                        sommePaire += f(x);
+                    } else {
+                        sommeImpaire += f(x);
+                    }
+                }
+                var result = h / 3 * (f(a) + 4 * sommeImpaire + 2 * sommePaire + f(b));
+
+                var t1 = performance.now();
+                var timeElapsed = t1 - t0;
+
+                //affichage des valeurs
+                res.innerHTML = "Valeur de PI : " + result.toFixed(17);
+                //alert("Resultat = "+result.toFixed(17));
+                temps.innerHTML = "temps : " + timeElapsed.toFixed(5) + " ms";
+
+            }
+            //Fonction de base écrite sous la forme PI =
+            function f(x)
+            {
+                var res = 4 / (1 + (Math.pow(x, 2)));
+                return res;
+            }
+
+        </script>
+
+        <style>
+            img{width: 50%}
+        </style>
+    </head>
+
+    <body>
+        <div id="head" style="text-align:center; border-bottom: solid 2px black;">
+            <h1> Algorithmes Numériques</h1>
+            <h2>Intégration numérique</h2>
+        </div>
+        <div>
+            <h2>Representation numérique</h2>
+            <input type="button" name="calcul" value="Calcul de PI" onClick="simpson()">
+            <div id="res"></div>
+            <div id="temps"></div>
+
+            <h2>Representation graphique</h2>
+            <img src="representation.png" alt="Représentation de Pi"> 
+
+        </div>
+
+
+        <footer style="margin-top:100px; border-top:2px solid black; ">
+            <h4>Contextualisation</h4>
+            Ce labo a été réalisé par l'équipe 4b composée de Jmaa Mohamed, Castella Killian, Neto da Silva André & Piquerez Thibaut dans le cadre du cours "Algorithmes numériques".
+        </footer>
+    </body>
+</html>
